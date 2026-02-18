@@ -8,6 +8,7 @@ public class Suma {
        return a + b + c;
     }
     public int sumar(String mensaje,byte a, byte b) {
+        System.out.println(mensaje);
         return a + b;
     }
 }

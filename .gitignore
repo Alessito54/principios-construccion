@@ -1,3 +1,4 @@
 .java-upgrade-ignore
 # This file is used to ignore specific files or directories during the Java upgrade process.
 # Add the paths of files or directories that you want to ignore below.
+target/
