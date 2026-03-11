@@ -9,11 +9,13 @@ public class Fabrica {
         this.unidadesActuales = 0;
     }
 
-    public void registrarRobot(Robot r) {
+    public boolean registrarRobot(Robot r) {
         if (unidadesActuales < inventarioUnidades.length) {
             inventarioUnidades[unidadesActuales] = r;
             unidadesActuales++;
+            return true;
         }
+        return false;
     }
 
     public String mostrarInventario() {

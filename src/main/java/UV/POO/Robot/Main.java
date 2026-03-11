@@ -2,8 +2,6 @@ package UV.POO.Robot;
 
 import javax.swing.JOptionPane;
 
-import javax.swing.JOptionPane;
-
 public class Main {
     public static void main(String[] args) {
         Fabrica miFabrica = new Fabrica(10);
@@ -18,31 +16,95 @@ public class Main {
 
             String seleccion = JOptionPane.showInputDialog(null, menuVisual, "Gestión de Fábrica", 3);
             if (seleccion == null) break;
-            menuOpcion = Integer.parseInt(seleccion);
+
+            try {
+                menuOpcion = Integer.parseInt(seleccion.trim());
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Opción no válida.", "Error", JOptionPane.ERROR_MESSAGE);
+                continue;
+            }
 
             switch (menuOpcion) {
                 case 1:
-                    String nP = JOptionPane.showInputDialog("Apodo:");
-                    int eP = Integer.parseInt(JOptionPane.showInputDialog("Energía (%):"));
-                    String ubi = JOptionPane.showInputDialog("País:");
-                    String est = JOptionPane.showInputDialog("Estilo:");
-                    miFabrica.registrarRobot(new RobotPelea(nP, eP, ubi, est));
+                    crearRobotPelea(miFabrica);
                     break;
                 case 2:
-                    String nC = JOptionPane.showInputDialog("Apodo:");
-                    int eC = Integer.parseInt(JOptionPane.showInputDialog("Energía (%):"));
-                    int vel = Integer.parseInt(JOptionPane.showInputDialog("Velocidad:"));
-                    miFabrica.registrarRobot(new RobotCarrera(nC, eC, vel));
+                    crearRobotCarrera(miFabrica);
                     break;
                 case 3:
-                    String nB = JOptionPane.showInputDialog("Apodo:");
-                    int eB = Integer.parseInt(JOptionPane.showInputDialog("Energía (%):"));
-                    miFabrica.registrarRobot(new Robot(nB, eB));
+                    crearRobotBase(miFabrica);
                     break;
                 case 4:
                     JOptionPane.showMessageDialog(null, miFabrica.mostrarInventario());
                     break;
+                case 5:
+                    break;
+                default:
+                    JOptionPane.showMessageDialog(null, "Opción no válida.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } while (menuOpcion != 5);
+    }
+
+    private static String pedirTexto(String mensaje) {
+        String valor = JOptionPane.showInputDialog(mensaje);
+        if (valor == null || valor.trim().isEmpty()) return null;
+        return valor.trim();
+    }
+
+    private static int pedirEntero(String mensaje, int min, int max) {
+        String valor = JOptionPane.showInputDialog(mensaje);
+        if (valor == null) return Integer.MIN_VALUE;
+        try {
+            int n = Integer.parseInt(valor.trim());
+            if (n < min || n > max) {
+                JOptionPane.showMessageDialog(null,
+                    "El valor debe estar entre " + min + " y " + max + ".",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+                return Integer.MIN_VALUE;
+            }
+            return n;
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Debe ingresar un número.", "Error", JOptionPane.ERROR_MESSAGE);
+            return Integer.MIN_VALUE;
+        }
+    }
+
+    private static void crearRobotPelea(Fabrica fabrica) {
+        String nombre = pedirTexto("Apodo:");
+        if (nombre == null) return;
+        int energia = pedirEntero("Energía (%):", 0, 100);
+        if (energia == Integer.MIN_VALUE) return;
+        String ubicacion = pedirTexto("País:");
+        if (ubicacion == null) return;
+        String estilo = pedirTexto("Estilo:");
+        if (estilo == null) return;
+
+        if (!fabrica.registrarRobot(new RobotPelea(nombre, energia, ubicacion, estilo))) {
+            JOptionPane.showMessageDialog(null, "Fábrica llena, no se pudo registrar.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private static void crearRobotCarrera(Fabrica fabrica) {
+        String nombre = pedirTexto("Apodo:");
+        if (nombre == null) return;
+        int energia = pedirEntero("Energía (%):", 0, 100);
+        if (energia == Integer.MIN_VALUE) return;
+        int velocidad = pedirEntero("Velocidad (km/h):", 0, 500);
+        if (velocidad == Integer.MIN_VALUE) return;
+
+        if (!fabrica.registrarRobot(new RobotCarrera(nombre, energia, velocidad))) {
+            JOptionPane.showMessageDialog(null, "Fábrica llena, no se pudo registrar.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private static void crearRobotBase(Fabrica fabrica) {
+        String nombre = pedirTexto("Apodo:");
+        if (nombre == null) return;
+        int energia = pedirEntero("Energía (%):", 0, 100);
+        if (energia == Integer.MIN_VALUE) return;
+
+        if (!fabrica.registrarRobot(new Robot(nombre, energia))) {
+            JOptionPane.showMessageDialog(null, "Fábrica llena, no se pudo registrar.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 }
