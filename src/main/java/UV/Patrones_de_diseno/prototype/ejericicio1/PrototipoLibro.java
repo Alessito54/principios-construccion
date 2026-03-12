@@ -1,4 +1,4 @@
-package UV.Patrones_de_diseno.prototype;
+package UV.Patrones_de_diseno.prototype.ejericicio1;
 
 public abstract class PrototipoLibro implements Cloneable {
     private String isbn;

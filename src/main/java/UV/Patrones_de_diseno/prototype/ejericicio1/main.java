@@ -1,4 +1,4 @@
-package UV.Patrones_de_diseno.prototype;
+package UV.Patrones_de_diseno.prototype.ejericicio1;
 
 public class main {
     public static void main(String[]  是程序的参数) {
