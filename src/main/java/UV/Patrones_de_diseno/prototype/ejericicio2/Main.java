@@ -4,7 +4,8 @@ public class Main {
     
     public static void main(String[] args){
      
-        PrototypeFusor prototypeFusor = new PrototypeFusor(1111, "Mexico", 60, 50);
+        PrototypeFusor prototypeFusor = new PrototypeFusor(1111, "
+        ", 60, 50);
         PrototypeFusor cloneFusor1 = (PrototypeFusor) prototypeFusor.clone();
         PrototypeFusor cloneFusor2 = (PrototypeFusor) prototypeFusor.clone();
         cloneFusor2.setId(2222);
